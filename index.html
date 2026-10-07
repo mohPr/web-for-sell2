@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14110F">
+<meta name="color-scheme" content="dark">
+<title>Demo Resto — برغر • بيتزا • تاكوس</title>
+<meta name="description" content="Demo Resto — برغر، تاكوس، بيتزا، ساندويتش، بطاطا، دجاج، حلويات ومشروبات. اطلب عبر واتساب. Burgers, tacos, pizza and more. Order on WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Demo Resto — Burgers, tacos & pizza">
+<meta property="og:description" content="Order in one tap on WhatsApp. Burgers, tacos, pizza, sandwiches, fries, chicken, desserts and soft drinks.">
+<meta property="og:image" content="https://images.pexels.com/photos/20205482/pexels-photo-20205482.jpeg?auto=compress&cs=tinysrgb&w=1200">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Demo Resto — mobile-first template. Restaurant data lives in CONFIG. */
+:root{
+  --bg:#14110F;
+  --ink:#FFF8F3;
+  --muted:#D4C4B8;
+  --line:rgba(255,248,242,.10);
+  --primary:#E23D2F;
+  --accent:#E8B23A;
+  --accent-ink:#2A1C06;
+  --wa:#1FAF5A;
+  --header-h:64px;
+  --r:22px;
+  --shadow:0 18px 36px -24px rgba(0,0,0,.85);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; max-width:100%; overflow-x:clip;
+  background:var(--bg); color:var(--ink);
+  font-family:Poppins,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:16px; line-height:1.55; font-weight:400;
+  -webkit-font-smoothing:antialiased; -webkit-tap-highlight-color:transparent;
+  padding-bottom:calc(78px + env(safe-area-inset-bottom));
+}
+html[lang="ar"] body{font-family:Cairo,Poppins,system-ui,sans-serif; font-weight:500}
+img{max-width:100%; display:block}
+a{color:inherit; text-decoration:none}
+button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer}
+h1,h2,h3{margin:0; line-height:1.2; font-weight:800}
+p{margin:0}
+::selection{background:var(--accent); color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+.wrap{width:100%; max-width:1080px; margin-inline:auto; padding-inline:16px}
+
+/* header */
+.hdr{
+  position:sticky; top:0; z-index:50; height:var(--header-h);
+  display:flex; align-items:center;
+  background:rgba(20,17,15,.96);
+  -webkit-backdrop-filter:blur(14px) saturate(1.5); backdrop-filter:blur(14px) saturate(1.5);
+  border-bottom:1px solid var(--line);
+}
+.hdr .wrap{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.brand{display:flex; align-items:center; gap:10px; min-width:0}
+.brand > div{min-width:0}
+.mark{
+  width:36px; height:36px; flex:none; border-radius:12px;
+  display:grid; place-items:center;
+  background:var(--primary); color:#fff;
+  box-shadow:0 8px 16px -10px rgba(226,61,47,.9);
+}
+.mark svg{width:22px; height:22px}
+.brand b{display:block; font-size:1.02rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.brand small{display:block; color:var(--accent); font-size:.68rem; font-weight:700}
+.lang{
+  display:flex; gap:2px; padding:3px; border-radius:999px;
+  border:1px solid var(--line); background:rgba(255,248,242,.04); flex:none;
+}
+.lang button{
+  min-width:48px; height:44px; border-radius:999px;
+  font-size:.8rem; font-weight:800; color:var(--muted);
+}
+.lang button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
+.hdr-cta{display:none; gap:8px}
+.hdr-cta a{
+  display:inline-flex; align-items:center; gap:7px; height:44px; padding:0 14px;
+  border-radius:999px; font-size:.85rem; font-weight:700; color:#fff;
+}
+.hdr-cta svg{width:18px; height:18px; flex:none}
+.hdr-cta .h-call{background:var(--primary)}
+.hdr-cta .h-wa{background:var(--wa)}
+.hdr-cta .h-dir{background:var(--accent); color:var(--accent-ink)}
+@media (min-width:960px){
+  :root{--header-h:68px}
+  .hdr-cta{display:flex}
+  .brand b{font-size:1.12rem}
+}
+
+/* buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:56px; padding:0 18px; border-radius:999px;
+  font-weight:800; font-size:1rem; line-height:1.1;
+  transition:transform .15s ease;
+}
+.btn:active{transform:scale(.96)}
+.btn svg{width:20px; height:20px; flex:none}
+.btn-call{background:var(--primary); color:#fff; box-shadow:0 12px 22px -14px rgba(226,61,47,.95)}
+.btn-wa{background:var(--wa); color:#fff}
+.btn-dir{background:var(--accent); color:var(--accent-ink)}
+
+/* hero */
+.hero{
+  position:relative; overflow:hidden;
+  min-height:calc(100svh - var(--header-h));
+  display:flex; flex-direction:column; justify-content:center;
+  padding:24px 0 32px;
+  background:
+    radial-gradient(72% 44% at 78% 4%, rgba(232,178,58,.16), transparent 60%),
+    radial-gradient(64% 44% at 12% 96%, rgba(226,61,47,.18), transparent 58%),
+    var(--bg);
+}
+.hero-grid{
+  display:grid; gap:0 30px; align-content:center;
+  grid-template-columns:1fr;
+  grid-template-areas:"eyebrow" "h1" "tag" "art" "sub" "cta" "meta";
+}
+.hero-eyebrow{grid-area:eyebrow}
+.hero-title{grid-area:h1}
+.hero-tagline{grid-area:tag}
+.hero-art{grid-area:art}
+.hero-sub{grid-area:sub}
+.hero-cta{grid-area:cta}
+.hero-meta{grid-area:meta}
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px; justify-self:start;
+  padding:7px 13px; border-radius:999px;
+  border:1px solid rgba(232,178,58,.34);
+  background:rgba(232,178,58,.10);
+  color:var(--accent); font-size:.78rem; font-weight:700;
+}
+.eyebrow::before{
+  content:""; width:7px; height:7px; border-radius:50%; background:#3DDC84; flex:none;
+  box-shadow:0 0 0 4px rgba(61,220,132,.16);
+  animation:live 2.6s ease-in-out infinite;
+}
+@keyframes live{0%,100%{box-shadow:0 0 0 3px rgba(61,220,132,.14)}50%{box-shadow:0 0 0 6px rgba(61,220,132,.05)}}
+h1{margin-top:14px; font-size:clamp(2.2rem,8.6vw,4.05rem); letter-spacing:-.025em; text-wrap:balance}
+html[lang="ar"] h1{letter-spacing:0}
+.tag{
+  margin-top:8px; color:var(--accent);
+  font-size:clamp(1.05rem,3.6vw,1.45rem); font-weight:700;
+  max-width:20em; text-wrap:balance;
+}
+.sub{margin-top:10px; color:var(--muted); max-width:34em; font-size:1rem}
+.hero-cta{display:grid; gap:10px; margin-top:20px}
+@media (min-width:480px){.hero-cta{grid-template-columns:1fr 1fr}}
+
+/* hero art — one photo, layered for depth, all motion on a single shared clock */
+.hero-art{
+  position:relative; width:100%; margin-top:18px;
+  aspect-ratio:4/3; perspective:1100px; perspective-origin:50% 45%;
+  --fdur:7.6s;
+}
+.art-glow{
+  position:absolute; inset:-12% -6% 4%; z-index:0; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(232,178,58,.30), rgba(226,61,47,.12) 52%, transparent 74%);
+  filter:blur(14px); animation:breathe var(--fdur) ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{transform:scale(1); opacity:.85}
+  50%{transform:scale(1.07); opacity:1}
+}
+.art-ring{
+  position:absolute; z-index:0; inset:-3%;
+  border-radius:50%; border:1px dashed rgba(232,178,58,.22);
+  animation:spin 54s linear infinite;
+}
+.art-ring::after{
+  content:""; position:absolute; inset:16%;
+  border-radius:50%; border:1px solid rgba(255,248,242,.06);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-shadow{
+  position:absolute; z-index:1; left:16%; right:16%; bottom:1%;
+  height:26px; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(0,0,0,.6), transparent);
+  animation:shdw var(--fdur) ease-in-out infinite;
+}
+@keyframes shdw{
+  0%,100%{transform:scaleX(1); opacity:.55}
+  50%{transform:scaleX(.82); opacity:.24}
+}
+.hero-photo{
+  position:absolute; z-index:2; inset:0 0 9%;
+  margin:0; border-radius:26px; overflow:hidden;
+  border:1px solid rgba(255,248,242,.16);
+  background:linear-gradient(145deg,#3A241C,#1A120F 60%,#4A2218);
+  box-shadow:
+    0 34px 60px -30px rgba(0,0,0,.92),
+    0 12px 26px -18px rgba(0,0,0,.7),
+    inset 0 1px 0 rgba(255,248,242,.18);
+  animation:floaty var(--fdur) ease-in-out infinite;
+  will-change:transform;
+}
+@keyframes floaty{
+  0%,100%{transform:translateY(0) rotateX(3.4deg) rotateY(-2.6deg)}
+  50%{transform:translateY(-15px) rotateX(1.2deg) rotateY(-.8deg)}
+}
+.hero-photo img{
+  width:100%; height:100%; object-fit:cover; object-position:50% 52%;
+  opacity:0; transition:opacity .5s ease;
+  animation:kb 22s ease-in-out infinite alternate;
+}
+@keyframes kb{from{transform:scale(1.03)}to{transform:scale(1.13)}}
+.hero-photo img.in{opacity:1}
+.hero-gloss{position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; border-radius:inherit}
+.hero-gloss::before{
+  content:""; position:absolute; top:-30%; bottom:-30%; width:44%;
+  background:linear-gradient(100deg, transparent, rgba(255,255,255,.16) 42%, rgba(255,255,255,.05) 55%, transparent);
+  transform:translateX(-160%) rotate(6deg);
+  animation:gloss 13s cubic-bezier(.5,0,.4,1) infinite;
+}
+@keyframes gloss{
+  0%{transform:translateX(-160%) rotate(6deg)}
+  42%{transform:translateX(320%) rotate(6deg)}
+  100%{transform:translateX(320%) rotate(6deg)}
+}
+
+/* floating info chips — real data only, no clip-art */
+.art-chip{
+  position:absolute; z-index:3; max-width:min(74%,248px);
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:15px;
+  background:rgba(26,21,18,.82);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border:1px solid rgba(255,248,242,.16);
+  box-shadow:0 18px 32px -20px rgba(0,0,0,.95);
+  animation:chipf 5.8s ease-in-out infinite;
+}
+.art-chip svg{width:16px; height:16px; flex:none; color:var(--accent)}
+.art-chip b{font-size:.86rem; font-weight:800; line-height:1.2; white-space:nowrap; min-width:0; overflow:hidden; text-overflow:ellipsis}
+.art-chip small{font-family:Poppins,sans-serif; font-size:.72rem; font-weight:700; color:var(--accent); white-space:nowrap}
+.art-chip em{font-style:normal; font-size:1.05rem; line-height:1; flex:none}
+.art-chip.a1{top:5%; inset-inline-start:-1%}
+.art-chip.a2{bottom:15%; inset-inline-end:-1%; animation-delay:-2.9s}
+@keyframes chipf{
+  0%,100%{transform:translateY(0) rotate(-.6deg)}
+  50%{transform:translateY(-8px) rotate(.6deg)}
+}
+
+.hero-meta{display:flex; flex-wrap:wrap; gap:8px 18px; margin:18px 0 0; padding:0; list-style:none}
+.hero-meta li{display:flex; align-items:center; gap:7px; color:var(--muted); font-size:.86rem; font-weight:600}
+.hero-meta svg{width:16px; height:16px; flex:none; color:var(--accent)}
+
+.scroll-hint{
+  display:grid; place-items:center; width:46px; height:46px; margin:22px auto 0;
+  border-radius:50%; border:1px solid var(--line); color:var(--accent);
+  background:rgba(255,248,242,.03);
+}
+.scroll-hint span{
+  width:8px; height:8px; border-inline-end:2px solid currentColor; border-bottom:2px solid currentColor;
+  transform:rotate(45deg); animation:nudge 1.6s ease-in-out infinite;
+}
+@keyframes nudge{0%,100%{transform:translateY(-2px) rotate(45deg); opacity:.4}50%{transform:translateY(3px) rotate(45deg); opacity:1}}
+
+.paused *{animation-play-state:paused !important}
+
+@media (min-width:600px){
+  .hero-art{aspect-ratio:16/11; max-width:560px}
+  .hero-photo{border-radius:30px}
+  .art-ring{inset:-6%}
+}
+@media (min-width:900px){
+  .hero{padding:34px 0 40px}
+  .hero-grid{
+    grid-template-columns:1.06fr .94fr;
+    grid-template-areas:
+      "eyebrow art"
+      "h1      art"
+      "tag     art"
+      "sub     art"
+      "cta     art"
+      "meta    art";
+    gap:0 38px;
+  }
+  .hero-art{align-self:center; margin-top:0; aspect-ratio:1/1; max-width:none}
+  .hero-cta{grid-template-columns:auto auto; justify-content:start}
+  .scroll-hint{display:none}
+}
+@media (min-width:1100px){
+  .hero-grid{gap:0 56px}
+  .hero-art{max-width:520px}
+}
+@media (max-height:700px) and (max-width:899px){
+  .hero{min-height:0; padding:20px 0 26px}
+  .hero-art{aspect-ratio:16/9; margin-top:14px}
+  .hero-meta{display:none}
+}
+
+/* sections */
+.sec{padding:54px 0 8px}
+.kicker{
+  display:flex; align-items:center; gap:9px;
+  color:var(--accent); font-size:.76rem; font-weight:800;
+  letter-spacing:.14em; text-transform:uppercase; margin-bottom:10px;
+}
+.kicker::before{
+  content:""; width:22px; height:2px; border-radius:2px; flex:none;
+  background:linear-gradient(90deg, var(--primary), var(--accent));
+}
+html[lang="ar"] .kicker{letter-spacing:0; text-transform:none; font-size:.9rem}
+.sec-head h2{font-size:clamp(1.6rem,5.6vw,2.15rem); letter-spacing:-.02em}
+html[lang="ar"] .sec-head h2{letter-spacing:0}
+.lead{margin-top:8px; color:var(--muted); max-width:40em}
+
+/* sticky category bar — does not scroll the page */
+.sticky-nav{
+  position:sticky; top:var(--header-h); z-index:40;
+  background:rgba(20,17,15,.96);
+  -webkit-backdrop-filter:blur(14px) saturate(1.5); backdrop-filter:blur(14px) saturate(1.5);
+  border-bottom:1px solid var(--line);
+  margin-top:22px;
+}
+.chips{
+  display:flex; gap:8px; overflow-x:auto; scroll-snap-type:x proximity;
+  padding:10px 16px 8px; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  mask-image:linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none; scroll-snap-align:center; min-height:52px; padding:0 13px;
+  display:inline-flex; align-items:center; gap:8px;
+  border-radius:17px; border:1px solid var(--line);
+  background:rgba(255,248,242,.045);
+  color:var(--muted); font-weight:700; font-size:.9rem; white-space:nowrap;
+  transition:background .2s ease, color .2s ease, border-color .2s ease, transform .18s ease;
+}
+.chip em{font-style:normal; font-size:1.1rem; line-height:1; flex:none}
+.chip b{
+  font-family:Poppins,sans-serif; font-size:.68rem; font-weight:700;
+  padding:2px 6px; border-radius:7px;
+  background:rgba(255,248,242,.09); color:var(--muted);
+}
+.chip:active{transform:scale(.97)}
+.chip[aria-current="true"]{
+  background:var(--primary); border-color:transparent; color:#fff;
+  box-shadow:0 12px 22px -14px rgba(226,61,47,.95);
+}
+.chip[aria-current="true"] b{background:rgba(255,255,255,.22); color:#fff}
+.now{display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:2px 16px 11px; font-size:.86rem}
+.now-k{
+  color:var(--accent); font-size:.66rem; font-weight:800;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:4px 8px; border-radius:8px; background:rgba(232,178,58,.12);
+}
+html[lang="ar"] .now-k{letter-spacing:0; text-transform:none; font-size:.74rem}
+#nowLabel{font-weight:800}
+#nowCount{color:var(--muted); font-size:.78rem; font-family:Poppins,sans-serif}
+#menuNote{margin-inline-start:auto; color:var(--muted); font-size:.74rem; font-family:Poppins,sans-serif}
+@media (max-width:430px){#menuNote{display:none}}
+
+/* menu list — one compact row per dish, built for thumbs */
+.cat{
+  margin-top:22px; padding:12px 6px 6px; border-radius:24px;
+  border:1px solid var(--line); background:rgba(255,248,242,.035);
+  scroll-margin-top:calc(var(--sticky-h,150px) + 12px);
+  box-shadow:inset 3px 0 0 transparent;
+}
+html[dir="rtl"] .cat{box-shadow:inset -3px 0 0 transparent}
+.cat.is-on{box-shadow:inset 3px 0 0 var(--accent)}
+html[dir="rtl"] .cat.is-on{box-shadow:inset -3px 0 0 var(--accent)}
+.cat-head{
+  display:flex; align-items:center; gap:12px; margin-bottom:2px;
+  padding:2px 10px 12px; border-bottom:1px solid var(--line);
+}
+.cat-ico{
+  width:44px; height:44px; flex:none; border-radius:14px;
+  display:grid; place-items:center; font-size:1.25rem;
+  background:rgba(232,178,58,.12); border:1px solid rgba(232,178,58,.22);
+}
+.cat.is-on .cat-ico{background:rgba(232,178,58,.24)}
+.cat-head h3{font-size:1.18rem; letter-spacing:-.01em}
+html[lang="ar"] .cat-head h3{letter-spacing:0}
+.cat-head p{color:var(--muted); font-size:.78rem; margin-top:2px; font-family:Poppins,sans-serif}
+
+.cat-list{display:grid; gap:0}
+.dish{
+  display:flex; gap:12px; align-items:stretch;
+  width:100%; min-width:0; text-align:start; position:relative;
+  padding:12px 10px; border-radius:14px;
+  transition:background .18s ease;
+}
+.dish + .dish::before{
+  content:""; position:absolute; top:0; height:1px;
+  inset-inline:10px; background:var(--line);
+}
+.dish:active{background:rgba(255,248,242,.06)}
+.dish-thumb{
+  position:relative; flex:none; width:88px; aspect-ratio:1;
+  border-radius:15px; overflow:hidden;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,#3A241C,#1A120F 62%,#4A2218);
+}
+.dish-body{flex:1; min-width:0; display:flex; flex-direction:column}
+.dish-top{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.dish-top .ttl{font-size:1rem; font-weight:800; line-height:1.3; min-width:0}
+.tag-badge{
+  flex:none; padding:3px 8px; border-radius:999px;
+  font-size:.62rem; font-weight:800; white-space:nowrap;
+  background:rgba(232,178,58,.16); color:var(--accent);
+  border:1px solid rgba(232,178,58,.28);
+}
+.tag-badge.new{background:#FFF4E8; color:#1A120E; border-color:transparent}
+.dish .txt{
+  margin-top:3px; color:var(--muted); font-size:.85rem; font-weight:500; line-height:1.45;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.dish-foot{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px}
+.dish-go{
+  width:38px; height:38px; flex:none; border-radius:50%;
+  display:grid; place-items:center; color:#2FE072;
+  background:rgba(31,175,90,.14); border:1px solid rgba(47,224,114,.26);
+  transition:background .18s ease, transform .15s ease;
+}
+.dish-go svg{width:19px; height:19px}
+.dish:active .dish-go{transform:scale(.92); background:rgba(31,175,90,.24)}
+
+@media (min-width:430px){.dish-thumb{width:104px}}
+@media (min-width:600px){
+  .cat{margin-top:30px; padding:0; border:0; border-radius:0; background:none; box-shadow:none}
+  html[dir="rtl"] .cat{box-shadow:none}
+  .cat.is-on,html[dir="rtl"] .cat.is-on{box-shadow:none}
+  .cat.is-on .cat-head{position:relative}
+  .cat.is-on .cat-head::before{
+    content:""; position:absolute; inset-inline-start:0; top:6px; bottom:18px;
+    width:3px; border-radius:3px; background:var(--accent);
+  }
+  .cat-head{padding:0 0 12px; margin-bottom:14px}
+  .cat-list{grid-template-columns:1fr 1fr; gap:14px}
+  .dish{
+    border:1px solid var(--line); background:#1C1714; border-radius:20px;
+    padding:12px; box-shadow:var(--shadow);
+  }
+  .dish + .dish::before{display:none}
+  .dish-thumb{width:112px}
+  .dish-foot{justify-content:flex-start; gap:14px}
+}
+@media (min-width:1000px){.dish-thumb{width:132px} .dish .txt{font-size:.88rem}}
+
+/* cards */
+.card{
+  display:flex; flex-direction:column; width:100%; text-align:start;
+  border-radius:var(--r); overflow:hidden; min-width:0;
+  background:#1C1714; border:1px solid var(--line);
+  box-shadow:var(--shadow); touch-action:manipulation;
+}
+.imgwrap{position:relative; display:block; aspect-ratio:3/2; overflow:hidden;
+  background:linear-gradient(145deg,#3A241C,#1A120F 62%,#4A2218)}
+.imgwrap img,.dish-thumb img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity .4s ease;
+}
+.imgwrap img.in,.dish-thumb img.in{opacity:1}
+.imgwrap::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(180deg, rgba(0,0,0,.04), transparent 28%, rgba(0,0,0,.28));
+}
+.badge{
+  position:absolute; top:10px; inset-inline-start:10px; z-index:2;
+  padding:5px 10px; border-radius:999px;
+  background:var(--accent); color:var(--accent-ink);
+  font-size:.68rem; font-weight:800; letter-spacing:.02em;
+  box-shadow:0 6px 14px -8px rgba(0,0,0,.9);
+}
+.badge.new{background:#FFF4E8; color:#1A120E}
+.shine{
+  position:absolute; inset:0; z-index:2; pointer-events:none; opacity:0;
+  background:radial-gradient(140px circle at var(--mx,50%) var(--my,30%), rgba(255,255,255,.32), transparent 62%);
+}
+.card.tilting .shine{opacity:1}
+.card-body{display:flex; flex-direction:column; gap:6px; flex:1; padding:13px 14px 14px}
+.ttl{font-size:1.05rem; font-weight:800}
+.txt{
+  color:var(--muted); font-size:.92rem; font-weight:500;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  min-height:2.8em;
+}
+.card-foot{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:auto; padding-top:8px}
+.price{
+  display:inline-flex; align-items:baseline; gap:4px;
+  color:var(--accent);
+  font-family:Poppins,sans-serif; font-weight:800; font-size:1.05rem;
+  font-variant-numeric:tabular-nums; letter-spacing:-.01em;
+}
+.price small{font-size:.64em; font-weight:700; opacity:.7}
+.hint{color:var(--muted); font-size:.78rem; font-weight:700; white-space:nowrap}
+.imgfallback{
+  position:absolute; inset:0; z-index:1; display:grid; place-items:center;
+  background:radial-gradient(80% 80% at 30% 20%, rgba(232,178,58,.28), transparent 60%),
+             linear-gradient(145deg,#3A241C,#1A120F 60%,#4A2218);
+}
+.fb-emoji{font-size:3.2rem; line-height:1; filter:drop-shadow(0 10px 14px rgba(0,0,0,.45))}
+.dish-thumb .fb-emoji{font-size:2.1rem}
+.card:active{transform:scale(.985)}
+@media (hover:hover){
+  .card:hover{border-color:rgba(232,178,58,.4)}
+  .dish:hover{border-color:rgba(232,178,58,.4)}
+}
+
+/* best sellers */
+.bleed{margin-inline:-16px}
+.rail{
+  display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
+  scroll-padding-inline:16px; padding:6px 16px 20px;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain;
+  mask-image:linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 16px), transparent);
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 16px), transparent);
+}
+.rail::-webkit-scrollbar{display:none}
+.rail .card{flex:0 0 min(76vw,272px); scroll-snap-align:start}
+.rail .txt{min-height:0}
+
+/* steps */
+.steps{display:grid; gap:12px; margin-top:18px}
+@media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{
+  display:flex; gap:14px; align-items:flex-start;
+  padding:16px; border-radius:20px;
+  background:rgba(255,248,242,.045); border:1px solid var(--line);
+}
+.step-ic{
+  width:48px; height:48px; flex:none; border-radius:16px;
+  display:grid; place-items:center; color:var(--accent);
+  background:rgba(232,178,58,.10); border:1px solid rgba(232,178,58,.2);
+}
+.step-ic svg{width:24px; height:24px}
+.step h3{font-size:1.05rem}
+.step p{color:var(--muted); font-size:.92rem; margin-top:4px}
+@media (min-width:760px){.step{flex-direction:column; min-height:100%}}
+
+/* location */
+.loc{
+  margin-top:18px; border-radius:24px; overflow:hidden;
+  border:1px solid var(--line); background:rgba(255,248,242,.045);
+}
+.map{aspect-ratio:16/10; background:#221C18}
+.map iframe{width:100%; height:100%; border:0; display:block}
+.loc-body{padding:16px}
+.loc-row{display:flex; gap:12px; align-items:flex-start; padding:11px 0; border-bottom:1px solid var(--line)}
+.loc-row:last-of-type{border-bottom:0}
+.loc-row svg{width:20px; height:20px; color:var(--accent); flex:none; margin-top:2px}
+.loc-row b{display:block; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:700}
+html[lang="ar"] .loc-row b{letter-spacing:0; text-transform:none; font-size:.8rem}
+.loc-row span{font-size:.98rem}
+.loc-body .btn{width:100%; margin-top:14px}
+
+/* footer */
+footer{margin-top:48px; padding:32px 0 28px; border-top:1px solid var(--line)}
+.foot{display:grid; gap:18px}
+.foot h3{font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:6px}
+html[lang="ar"] .foot h3{letter-spacing:0; text-transform:none; font-size:.85rem}
+.foot p{color:var(--muted); font-size:.95rem}
+.foot-cta{display:grid; gap:10px; margin-top:18px}
+@media (min-width:720px){
+  .foot{grid-template-columns:1.3fr 1fr 1fr}
+  .foot-cta{grid-template-columns:repeat(3,1fr)}
+}
+.copy{margin-top:18px; text-align:center; color:var(--muted); font-size:.78rem}
+
+/* dock — WhatsApp raised into a FAB, the one action that matters */
+.dock{
+  position:fixed; left:0; right:0; bottom:0; z-index:60;
+  display:grid; grid-template-columns:repeat(3,1fr); align-items:center;
+  background:#1A1512; border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+  box-shadow:0 -12px 28px -18px rgba(0,0,0,.9);
+}
+.dock a{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  min-height:62px; font-size:.75rem; font-weight:800;
+}
+.dock a:active{transform:scale(.96)}
+.dock svg{width:22px; height:22px}
+.dock .c-call{color:#FF6A58}
+.dock .c-dir{color:var(--accent)}
+.dock .c-wa{min-height:0; color:transparent}
+.fab{
+  position:absolute; left:50%; top:-20px; transform:translateX(-50%);
+  width:58px; height:58px; border-radius:50%;
+  display:grid; place-items:center; color:#fff; background:var(--wa);
+  box-shadow:0 16px 28px -12px rgba(31,175,90,.95), 0 0 0 5px #1A1512;
+}
+.fab svg{width:28px; height:28px}
+.fab::after{
+  content:""; position:absolute; inset:-5px; border-radius:50%;
+  border:1px solid rgba(47,224,114,.6);
+  animation:fabring 2.9s ease-out infinite;
+}
+@keyframes fabring{0%{transform:scale(1); opacity:.7}70%,100%{transform:scale(1.32); opacity:0}}
+.sr{
+  position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+  overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0;
+}
+@media (min-width:960px){
+  .dock{display:none}
+  body{padding-bottom:40px}
+}
+
+/* sheet */
+.scrim{
+  position:fixed; inset:0; z-index:80; background:rgba(8,6,5,.72);
+  opacity:0; pointer-events:none; transition:opacity .3s ease;
+}
+.scrim.on{opacity:1; pointer-events:auto}
+.sheet{
+  position:fixed; left:0; right:0; bottom:0; z-index:90;
+  max-height:92svh; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  background:var(--bg); border:1px solid var(--line); border-bottom:0;
+  border-radius:28px 28px 0 0;
+  transform:translateY(102%);
+  transition:transform .36s cubic-bezier(.22,1,.36,1);
+  overscroll-behavior:contain;
+}
+.sheet.on{transform:translateY(0)}
+.sheet-top{position:relative; display:flex; justify-content:flex-end; align-items:center; min-height:52px; padding:6px 8px 0}
+.grab{position:absolute; left:50%; top:8px; width:42px; height:5px; border-radius:99px; background:rgba(255,248,242,.28); transform:translateX(-50%)}
+.sheet-x{
+  width:48px; height:48px; border-radius:50%;
+  background:rgba(255,248,242,.08); border:1px solid var(--line);
+  font-size:1.5rem; line-height:1;
+}
+.sheet .imgwrap{aspect-ratio:16/10; border-radius:0}
+.sheet-body{padding:16px 16px 8px}
+.sheet-body h2{font-size:1.45rem}
+.desc{margin-top:10px; color:var(--muted); font-size:1rem}
+.meta{
+  display:inline-block; margin-top:10px; padding:5px 11px; border-radius:999px;
+  background:rgba(232,178,58,.12); border:1px solid rgba(232,178,58,.24);
+  color:var(--accent); font-size:.78rem; font-weight:700;
+}
+.sheet-bar{
+  position:sticky; bottom:0; display:flex; align-items:center; gap:12px;
+  padding:12px 16px calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg, rgba(20,17,15,0), var(--bg) 26%);
+}
+.sheet-bar .btn{flex:1; min-width:0}
+.price.big{font-size:1.32rem}
+@media (min-width:800px){
+  .sheet{left:50%; right:auto; width:min(520px, calc(100% - 32px)); transform:translate(-50%,102%)}
+  .sheet.on{transform:translate(-50%,0)}
+}
+body.lock{overflow:hidden}
+
+/* reveal — cards fade only, so tilt can own transform */
+.reveal{opacity:0; transform:translateY(14px); transition:opacity .45s ease, transform .45s ease}
+.reveal.in{opacity:1; transform:none}
+.card.reveal{transform:none}
+.card.in .price{animation:pop .42s cubic-bezier(.2,1.4,.36,1) both}
+@keyframes pop{0%{transform:scale(.6)}100%{transform:scale(1)}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation:none !important; transition:none !important; scroll-behavior:auto !important;
+  }
+  .reveal{opacity:1; transform:none}
+  .hero-photo{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" id="skip" href="#menu" style="position:absolute;inset-inline-start:8px;top:-48px;z-index:100;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:10px;font-weight:800">Menu</a>
+
+<header class="hdr" id="hdr">
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M4 10h16M6 10c0-3 2.2-5 6-5s6 2 6 5"/><path d="M5 10c.4 4.2 1.6 6.5 3.2 7.2M19 10c-.4 4.2-1.6 6.5-3.2 7.2"/><path d="M8.2 17.2h7.6"/></svg>
+      </div>
+      <div>
+        <b id="brandName">Demo Resto</b>
+        <small id="brandSub">Fast food</small>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="hdr-cta" id="hdrCta"></div>
+      <div class="lang" role="group" id="langGroup">
+        <button type="button" data-lang="ar" aria-pressed="true">ع</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="wrap hero-grid">
+      <p class="eyebrow hero-eyebrow" id="eyebrow"></p>
+      <h1 class="hero-title" id="heroTitle">Demo Resto</h1>
+      <p class="tag hero-tagline" id="heroTag"></p>
+      <div class="hero-art" id="heroArt">
+        <span class="art-glow" aria-hidden="true"></span>
+        <span class="art-ring" aria-hidden="true"></span>
+        <span class="hero-shadow" aria-hidden="true"></span>
+        <figure class="hero-photo">
+          <img id="heroImg" alt="" width="1200" height="900" loading="eager" decoding="async" fetchpriority="high">
+          <span class="hero-gloss" aria-hidden="true"></span>
+        </figure>
+        <span class="art-chip a1" id="heroChip1"></span>
+        <span class="art-chip a2" id="heroChip2"></span>
+      </div>
+      <p class="sub hero-sub" id="heroSub"></p>
+      <div class="hero-cta" id="heroCta"></div>
+      <ul class="hero-meta" id="heroMeta"></ul>
+    </div>
+    <button class="scroll-hint" id="toMenu" type="button" aria-label="Menu"><span></span></button>
+  </section>
+
+  <section class="sec" id="menu">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="kicker" id="menuKicker"></p>
+        <h2 id="menuTitle"></h2>
+        <p class="lead" id="menuSub"></p>
+      </div>
+    </div>
+    <div class="sticky-nav" id="stickyNav">
+      <div class="chips" id="chips" role="group" aria-label="Categories"></div>
+      <div class="now">
+        <span class="now-k" id="nowK"></span>
+        <strong id="nowLabel"></strong>
+        <span id="nowCount"></span>
+        <span id="menuNote"></span>
+      </div>
+    </div>
+    <div class="wrap" id="menuRoot"></div>
+  </section>
+
+  <section class="sec" id="best">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="kicker" id="bestKicker"></p>
+        <h2 id="bestTitle"></h2>
+        <p class="lead" id="bestSub"></p>
+      </div>
+      <div class="bleed"><div class="rail" id="bestRail"></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="kicker" id="howKicker"></p>
+        <h2 id="howTitle"></h2>
+      </div>
+      <div class="steps" id="steps"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="location">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="kicker" id="locKicker"></p>
+        <h2 id="locTitle"></h2>
+      </div>
+      <div class="loc reveal">
+        <div class="map">
+          <iframe id="mapFrame" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen width="800" height="500"></iframe>
+        </div>
+        <div class="loc-body">
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
+            <div><b id="addrL"></b><span id="addrV"></span></div>
+          </div>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+            <div><b id="hoursL"></b><span id="hoursV"></span></div>
+          </div>
+          <div class="loc-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h3l2 5-2.2 1.3a11 11 0 0 0 5.9 5.9L15 14l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>
+            <div><b id="phoneL"></b><span id="phoneV"></span></div>
+          </div>
+          <a class="btn btn-dir" id="dirBtn" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg>
+            <span id="dirBtnT"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 10h16M6 10c0-3 2.2-5 6-5s6 2 6 5"/></svg></div><b id="footName">Demo Resto</b></div>
+        <p style="margin-top:10px" id="footTag"></p>
+      </div>
+      <div><h3 id="footHL"></h3><p id="footHV"></p></div>
+      <div><h3 id="footAL"></h3><p id="footAV"></p></div>
+    </div>
+    <div class="foot-cta" id="footCta"></div>
+    <p class="copy" id="copyT"></p>
+  </div>
+</footer>
+
+<nav class="dock" id="dock" aria-label="Contact"></nav>
+
+<div class="scrim" id="scrim" hidden></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetName" hidden>
+  <div class="sheet-top">
+    <span class="grab" aria-hidden="true"></span>
+    <button class="sheet-x" id="sheetX" type="button" aria-label="Close">×</button>
+  </div>
+  <span class="imgwrap">
+    <img id="sheetImg" alt="" width="1200" height="750" loading="lazy" decoding="async">
+    <span class="badge" id="sheetBadge" hidden></span>
+  </span>
+  <div class="sheet-body">
+    <h2 id="sheetName"></h2>
+    <p class="meta" id="sheetMeta"></p>
+    <p class="desc" id="sheetDesc"></p>
+  </div>
+  <div class="sheet-bar">
+    <span class="price big" id="sheetPrice"></span>
+    <a class="btn btn-wa" id="sheetWa" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.8-.2a12 12 0 0 1-5.6-4.9c-.5-.9-.7-1.6-.5-2.3.1-.5.6-1.2 1-1.4.3-.2.8-.2 1-.1.3.1.5.7.7 1.3.2.5.2.7.1.9-.1.3-.4.6-.5.8-.1.2 0 .5.2.8.4.6 1 1.2 1.7 1.6.4.2.7.3.9.2.2-.1.5-.5.8-.7.2-.2.5-.2.8-.1.3.1 1.3.6 1.4.8.1.2.1.6 0 .9z"/></svg>
+      <span id="sheetWaT"></span>
+    </a>
+  </div>
+</section>
+
+<script>
+/* ==========================================================================
+   EDIT THIS — everything restaurant-specific is in CONFIG.
+   image: full URL, local file "images/burger.jpg", or a Pexels id (digits).
+   badge: "Best seller" | "New" | null
+   ========================================================================== */
+var CONFIG = {
+  name: "Demo Resto",
+  tagline: {
+    ar: "برغر، بيتزا وتاكوس طازجة كل يوم",
+    fr: "Burgers, pizzas et tacos, préparés à la minute",
+    en: "Fresh burgers, pizza and tacos, made to order"
+  },
+  sub: {
+    ar: "اطلب عبر واتساب في ثوانٍ، أو اتصل بنا مباشرة.",
+    fr: "Commandez sur WhatsApp en quelques secondes, ou appelez-nous.",
+    en: "Order on WhatsApp in seconds, or call us directly."
+  },
+  eyebrow: {
+    ar: "مفتوح الآن · توصيل واستلام",
+    fr: "Ouvert · Livraison et à emporter",
+    en: "Open now · Delivery and pickup"
+  },
+  phone: "+213 555 12 34 56",
+  whatsappNumber: "213555123456",
+  googleMapsLink: "https://www.google.com/maps/dir/?api=1&destination=36.7538,3.0588",
+  googleMapsEmbedUrl: "https://maps.google.com/maps?q=36.7538,3.0588&z=15&output=embed",
+  address: {
+    ar: "شارع ديدوش مراد، الجزائر الوسطى",
+    fr: "Rue Didouche Mourad, Alger Centre",
+    en: "Didouche Mourad Street, Algiers Centre"
+  },
+  openingHours: {
+    ar: "كل يوم · 11:00 – 00:00",
+    fr: "Tous les jours · 11h00 – 00h00",
+    en: "Every day · 11:00 – 00:00"
+  },
+  currency: "DA",
+  colors: { primary:"#E23D2F", accent:"#E8B23A", dark:"#14110F", light:"#FFF8F3" },
+  defaultLang: "ar",
+  heroImage: "20205482",
+  menu: [
+    { id:"burgers", icon:"🍔", label:{ar:"برغر",fr:"Burgers",en:"Burgers"}, items:[
+      { name_ar:"برغر كلاسيك", name_fr:"Burger classique", name_en:"Classic Burger",
+        description_ar:"لحم مشوي، شيدر، خس، طماطم وصوص البيت.",
+        description_fr:"Bœuf grillé, cheddar, salade, tomate, sauce maison.",
+        description_en:"Grilled beef, cheddar, lettuce, tomato, house sauce.",
+        price:450, image:"32480062", badge:null, emoji:"🍔" },
+      { name_ar:"دبل تشيز", name_fr:"Double cheese", name_en:"Double Cheese",
+        description_ar:"طبقتان من اللحم، جبنة مضاعفة ومخلل.",
+        description_fr:"Deux steaks, double cheddar et pickles.",
+        description_en:"Two patties, double cheddar and pickles.",
+        price:650, image:"3915906", badge:"Best seller", emoji:"🍔" },
+      { name_ar:"برغر دجاج مقرمش", name_fr:"Burger poulet croustillant", name_en:"Crispy Chicken Burger",
+        description_ar:"دجاج مقرمش، خس وصوص الثوم.",
+        description_fr:"Poulet croustillant, salade et sauce à l'ail.",
+        description_en:"Crispy chicken, lettuce and garlic sauce.",
+        price:550, image:"3651830", badge:null, emoji:"🍗" },
+      { name_ar:"برغر سموك", name_fr:"Burger fumé", name_en:"Smoke Burger",
+        description_ar:"لحم مدخن، جبنة ذائبة وصوص باربكيو.",
+        description_fr:"Bœuf fumé, cheddar fondu et sauce barbecue.",
+        description_en:"Smoked beef, melted cheddar and BBQ sauce.",
+        price:700, image:"4211571", badge:"New", emoji:"🍔" }
+    ]},
+    { id:"tacos", icon:"🌮", label:{ar:"تاكوس",fr:"Tacos",en:"Tacos"}, items:[
+      { name_ar:"تاكوس دجاج", name_fr:"Tacos poulet", name_en:"Chicken Tacos",
+        description_ar:"دجاج متبل، بطاطا، جبنة وصوص الجبن.",
+        description_fr:"Poulet mariné, frites, fromage et sauce fromage.",
+        description_en:"Marinated chicken, fries, cheese and cheese sauce.",
+        price:600, image:"7041784", badge:"Best seller", emoji:"🌮" },
+      { name_ar:"تاكوس ميكس", name_fr:"Tacos mixte", name_en:"Mix Tacos",
+        description_ar:"دجاج ولحم، جبنة مضاعفة وبطاطا.",
+        description_fr:"Poulet et viande, double fromage et frites.",
+        description_en:"Chicken and beef, double cheese and fries.",
+        price:800, image:"36498696", badge:null, emoji:"🌮" },
+      { name_ar:"تاكوس لحم", name_fr:"Tacos viande", name_en:"Beef Tacos",
+        description_ar:"لحم بقري حار، فلفل وبصل وجبنة.",
+        description_fr:"Bœuf épicé, poivrons, oignons et fromage.",
+        description_en:"Spicy beef, peppers, onion and cheese.",
+        price:700, image:"20348820", badge:null, emoji:"🌮" }
+    ]},
+    { id:"pizza", icon:"🍕", label:{ar:"بيتزا",fr:"Pizzas",en:"Pizza"}, items:[
+      { name_ar:"مارغريتا", name_fr:"Margherita", name_en:"Margherita",
+        description_ar:"صلصة طماطم، موزاريلا وريحان.",
+        description_fr:"Sauce tomate, mozzarella et basilic.",
+        description_en:"Tomato sauce, mozzarella and basil.",
+        price:800, image:"5903316", badge:null, emoji:"🍕" },
+      { name_ar:"4 أجبان", name_fr:"4 fromages", name_en:"4 Cheese",
+        description_ar:"موزاريلا، شيدر، غرويار وجبنة كريمية.",
+        description_fr:"Mozzarella, cheddar, gruyère et fromage frais.",
+        description_en:"Mozzarella, cheddar, gruyère and cream cheese.",
+        price:1100, image:"803290", badge:"Best seller", emoji:"🍕" },
+      { name_ar:"بيبروني", name_fr:"Pepperoni", name_en:"Pepperoni",
+        description_ar:"بيبروني حار وموزاريلا على عجينة رقيقة.",
+        description_fr:"Pepperoni épicé et mozzarella sur pâte fine.",
+        description_en:"Spicy pepperoni and mozzarella on a thin base.",
+        price:1200, image:"4109111", badge:"New", emoji:"🍕" }
+    ]},
+    { id:"sandwiches", icon:"🥪", label:{ar:"ساندويتش",fr:"Sandwichs",en:"Sandwiches"}, items:[
+      { name_ar:"إسكالوب", name_fr:"Escalope", name_en:"Escalope Sandwich",
+        description_ar:"إسكالوب دجاج، خس، طماطم وصوص الثوم.",
+        description_fr:"Escalope panée, salade, tomate, sauce à l'ail.",
+        description_en:"Breaded chicken, lettuce, tomato, garlic sauce.",
+        price:450, image:"8478399", badge:"Best seller", emoji:"🥪" },
+      { name_ar:"مرقاز", name_fr:"Merguez", name_en:"Merguez Sandwich",
+        description_ar:"مرقاز مشوي، بصل، طماطم وهريسة.",
+        description_fr:"Merguez grillée, oignons, tomate et harissa.",
+        description_en:"Grilled merguez, onion, tomato and harissa.",
+        price:350, image:"34384842", badge:null, emoji:"🌭" },
+      { name_ar:"كلوب", name_fr:"Club", name_en:"Club Sandwich",
+        description_ar:"دجاج، بيض، جبنة وخس في ثلاث طبقات.",
+        description_fr:"Poulet, œuf, fromage et salade, triple étage.",
+        description_en:"Chicken, egg, cheese and lettuce, three layers.",
+        price:550, image:"8478417", badge:null, emoji:"🥪" }
+    ]},
+    { id:"fries", icon:"🍟", label:{ar:"بطاطا",fr:"Frites",en:"Fries"}, items:[
+      { name_ar:"بطاطا منزلية", name_fr:"Frites maison", name_en:"House Fries",
+        description_ar:"بطاطا طازجة مقلية مرتين وملح.",
+        description_fr:"Pommes de terre fraîches, double cuisson.",
+        description_en:"Fresh potatoes, fried twice, sea salt.",
+        price:200, image:"13187610", badge:"Best seller", emoji:"🍟" },
+      { name_ar:"بطاطا بالجبن", name_fr:"Frites cheddar", name_en:"Cheddar Fries",
+        description_ar:"بطاطا مع صوص الشيدر.",
+        description_fr:"Frites nappées de sauce cheddar.",
+        description_en:"Fries with warm cheddar sauce.",
+        price:350, image:"12548553", badge:null, emoji:"🍟" },
+      { name_ar:"حلقات البصل", name_fr:"Onion rings", name_en:"Onion Rings",
+        description_ar:"حلقات بصل مقرمشة مع صوص.",
+        description_fr:"Rondelles d'oignon croustillantes et sauce.",
+        description_en:"Crispy onion rings with a dip.",
+        price:300, image:"12557549", badge:null, emoji:"🧅" }
+    ]},
+    { id:"chicken", icon:"🍗", label:{ar:"دجاج",fr:"Poulet",en:"Chicken"}, items:[
+      { name_ar:"ناغتس ×8", name_fr:"Nuggets ×8", name_en:"Nuggets ×8",
+        description_ar:"ثماني قطع دجاج مقرمشة مع صوص.",
+        description_fr:"Huit morceaux croustillants, sauce au choix.",
+        description_en:"Eight crispy bites with a dip.",
+        price:500, image:"5773964", badge:null, emoji:"🍗" },
+      { name_ar:"أجنحة ×6", name_fr:"Wings ×6", name_en:"Wings ×6",
+        description_ar:"ستة أجنحة حارة أو عادية.",
+        description_fr:"Six ailes, épicées ou nature.",
+        description_en:"Six wings, spicy or plain.",
+        price:700, image:"39853099", badge:"Best seller", emoji:"🍗" },
+      { name_ar:"دلو عائلي", name_fr:"Seau familial", name_en:"Family Bucket",
+        description_ar:"12 قطعة دجاج، بطاطا كبيرة وصوصان.",
+        description_fr:"12 pièces, grande frite et 2 sauces.",
+        description_en:"12 pieces, large fries and 2 dips.",
+        price:1400, image:"5474676", badge:null, emoji:"🍗" }
+    ]},
+    { id:"wraps", icon:"🌯", label:{ar:"راب",fr:"Wraps",en:"Wraps"}, items:[
+      { name_ar:"راب دجاج", name_fr:"Wrap poulet", name_en:"Chicken Wrap",
+        description_ar:"دجاج مشوي، خس، طماطم وصوص الزبادي.",
+        description_fr:"Poulet grillé, salade, tomate, sauce yaourt.",
+        description_en:"Grilled chicken, lettuce, tomato, yoghurt sauce.",
+        price:450, image:"15913640", badge:null, emoji:"🌯" },
+      { name_ar:"راب مقرمش", name_fr:"Wrap crispy", name_en:"Crispy Wrap",
+        description_ar:"دجاج مقرمش، جبنة وصلصة حارة.",
+        description_fr:"Poulet croustillant, fromage et sauce piquante.",
+        description_en:"Crispy chicken, cheese and hot sauce.",
+        price:550, image:"16222105", badge:"New", emoji:"🌯" },
+      { name_ar:"راب خضار", name_fr:"Wrap légumes", name_en:"Veggie Wrap",
+        description_ar:"حمص، خضار مشوية وصلصة طحينة.",
+        description_fr:"Houmous, légumes grillés et sauce tahini.",
+        description_en:"Hummus, grilled vegetables and tahini.",
+        price:400, image:"18177326", badge:null, emoji:"🥬" }
+    ]},
+    { id:"desserts", icon:"🍩", label:{ar:"حلويات",fr:"Desserts",en:"Desserts"}, items:[
+      { name_ar:"دونات شوكولا", name_fr:"Donut chocolat", name_en:"Chocolate Donut",
+        description_ar:"دونات طازج بغلاف الشوكولا.",
+        description_fr:"Donut frais nappé de chocolat.",
+        description_en:"Fresh donut with chocolate glaze.",
+        price:180, image:"28202765", badge:null, emoji:"🍩" },
+      { name_ar:"صنداي", name_fr:"Sundae", name_en:"Ice-cream Sundae",
+        description_ar:"مثلجات، صوص كاراميل ومكسرات.",
+        description_fr:"Glace, sauce caramel et noix.",
+        description_en:"Ice cream, caramel sauce and nuts.",
+        price:320, image:"38371324", badge:"Best seller", emoji:"🍨" },
+      { name_ar:"ميلك شيك", name_fr:"Milkshake", name_en:"Milkshake",
+        description_ar:"شوكولا، فانيليا أو فراولة.",
+        description_fr:"Chocolat, vanille ou fraise.",
+        description_en:"Chocolate, vanilla or strawberry.",
+        price:380, image:"990439", badge:"New", emoji:"🥤" }
+    ]},
+    { id:"drinks", icon:"🥤", label:{ar:"مشروبات",fr:"Boissons",en:"Drinks"}, items:[
+      { name_ar:"كولا 33 سل", name_fr:"Cola 33 cl", name_en:"Cola 33 cl",
+        description_ar:"مشروب غازي مثلج.",
+        description_fr:"Soda bien frais.",
+        description_en:"Ice-cold cola.",
+        price:100, image:"8879617", badge:null, emoji:"🥤" },
+      { name_ar:"عصير برتقال", name_fr:"Jus d'orange", name_en:"Orange Juice",
+        description_ar:"عصير برتقال طازج بدون سكر مضاف.",
+        description_fr:"Jus d'orange frais, sans sucre ajouté.",
+        description_en:"Fresh orange juice, no added sugar.",
+        price:150, image:"17612820", badge:null, emoji:"🍊" },
+      { name_ar:"ماء 50 سل", name_fr:"Eau 50 cl", name_en:"Water 50 cl",
+        description_ar:"ماء معدني مثلج.",
+        description_fr:"Eau minérale fraîche.",
+        description_en:"Chilled mineral water.",
+        price:50, image:"11860562", badge:null, emoji:"💧" },
+      { name_ar:"إسبريسو", name_fr:"Espresso", name_en:"Espresso",
+        description_ar:"قهوة إسبريسو ساخنة ومركّزة.",
+        description_fr:"Espresso serré et chaud.",
+        description_en:"Hot, rich espresso.",
+        price:120, image:"11363654", badge:null, emoji:"☕" }
+    ]}
+  ]
+};
+
+/* UI chrome only — dish text comes from CONFIG */
+var T = {
+  ar:{ ff:"وجبات سريعة", call:"اتصل الآن", callS:"اتصل", wa:"واتساب", dirs:"الاتجاهات",
+    order:"اطلب عبر واتساب", orderS:"اطلب", menuK:"القائمة", menuT:"قائمة الطعام",
+    menuS:"اضغط على أي طبق للتفاصيل والطلب عبر واتساب.", bestK:"المفضّل", bestT:"الأكثر طلباً",
+    bestS:"اسحب يميناً أو يساراً لرؤية الباقي.", howK:"الطلب", howT:"كيف تطلب",
+    s1:"اختر الطبق", s1d:"تصفح القائمة واضغط على الطبق.",
+    s2:"راسلنا", s2d:"واتساب يفتح رسالة فيها الاسم والسعر.",
+    s3:"استمتع", s3d:"نحضّره عند الطلب، توصيل أو استلام.",
+    locK:"المكان", locT:"موقعنا", addr:"العنوان", hours:"أوقات العمل", phone:"الهاتف",
+    getDir:"احصل على الاتجاهات", bestTag:"الأكثر طلباً", newTag:"جديد",
+    dishes:"أصناف", section:"القسم", close:"إغلاق", skip:"تخطَّ إلى القائمة",
+    total:"الإجمالي", note:"الأسعار بـ",
+    footH:"أوقات العمل", footA:"العنوان", copy:"© 2026 Demo Resto — نموذج للعرض. عدّل CONFIG فقط." },
+  fr:{ ff:"Fast food", call:"Appeler", callS:"Appeler", wa:"WhatsApp", dirs:"Itinéraire",
+    order:"Commander", orderS:"Voir", menuK:"La carte", menuT:"Notre carte",
+    menuS:"Touchez un plat pour le voir et le commander.", bestK:"Favoris", bestT:"Les plus demandés",
+    bestS:"Glissez pour voir la suite.", howK:"Commande", howT:"Comment commander",
+    s1:"Choisissez", s1d:"Parcourez la carte et touchez un plat.",
+    s2:"Écrivez-nous", s2d:"WhatsApp ouvre un message avec le nom et le prix.",
+    s3:"Savourez", s3d:"Préparé à la commande, livraison ou à emporter.",
+    locK:"Adresse", locT:"Nous trouver", addr:"Adresse", hours:"Horaires", phone:"Téléphone",
+    getDir:"Voir l'itinéraire", bestTag:"Best-seller", newTag:"Nouveau",
+    dishes:"plats", section:"Section", close:"Fermer", skip:"Aller à la carte",
+    total:"Total", note:"Prix en",
+    footH:"Horaires", footA:"Adresse", copy:"© 2026 Demo Resto — modèle. Modifiez uniquement CONFIG." },
+  en:{ ff:"Fast food", call:"Call now", callS:"Call", wa:"WhatsApp", dirs:"Directions",
+    order:"Order on WhatsApp", orderS:"Order", menuK:"Menu", menuT:"The menu",
+    menuS:"Tap a dish to see it and order on WhatsApp.", bestK:"Favourites", bestT:"Most ordered",
+    bestS:"Swipe sideways to see the rest.", howK:"Ordering", howT:"How to order",
+    s1:"Choose", s1d:"Browse the menu and tap a dish.",
+    s2:"Message us", s2d:"WhatsApp opens a note with the name and price.",
+    s3:"Enjoy", s3d:"Made to order, for delivery or pickup.",
+    locK:"Visit", locT:"Find us", addr:"Address", hours:"Hours", phone:"Phone",
+    getDir:"Get directions", bestTag:"Best seller", newTag:"New",
+    dishes:"items", section:"Section", close:"Close", skip:"Skip to menu",
+    total:"Total", note:"Prices in",
+    footH:"Hours", footA:"Address", copy:"© 2026 Demo Resto — demo template. Edit CONFIG only." }
+};
+
+var IC = {
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 4h3l2 5-2.2 1.3a11 11 0 0 0 5.9 5.9L15 14l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.8-.2a12 12 0 0 1-5.6-4.9c-.5-.9-.7-1.6-.5-2.3.1-.5.6-1.2 1-1.4.3-.2.8-.2 1-.1.3.1.5.7.7 1.3.2.5.2.7.1.9-.1.3-.4.6-.5.8-.1.2 0 .5.2.8.4.6 1 1.2 1.7 1.6.4.2.7.3.9.2.2-.1.5-.5.8-.7.2-.2.5-.2.8-.1.3.1 1.3.6 1.4.8.1.2.1.6 0 .9z"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg>',
+  list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 17.5 3.5 21 8 19A9 9 0 1 0 5 17.5z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 7 10 17l-5-5"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>'
+};
+
+var lang = "ar";
+var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var activeCat = null;
+var lockUntil = 0;
+var lockId = null;
+var lockStart = 0;
+var booted = false;
+var lastFocus = null;
+var sheetTimer = 0;
+
+function $(s){ return document.querySelector(s); }
+function L(o){ return o ? (o[lang] || o.en || o.fr || o.ar || "") : ""; }
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];
+  });
+}
+function imgSrc(v, w){
+  if (v == null || v === "") return "";
+  var s = String(v);
+  if (/^\d+$/.test(s)) return "https://images.pexels.com/photos/" + s + "/pexels-photo-" + s + ".jpeg?auto=compress&cs=tinysrgb&w=" + (w || 900);
+  return s;
+}
+function money(n){ return '<b>' + n + '</b><small>' + esc(CONFIG.currency) + '</small>'; }
+/* "كل يوم · 11:00 – 00:00" reverses to "00:00 – 11:00" in RTL unless the range is isolated */
+function bidi(s){
+  var parts = String(s).split("·"), last = parts.length - 1, out = [];
+  for (var i = 0; i < parts.length; i++){
+    var p = parts[i].trim();
+    out.push(i === last && /\d/.test(p) ? '<bdi dir="ltr">' + esc(p) + "</bdi>" : esc(p));
+  }
+  return out.join(" · ");
+}
+function ltr(s){ return '<bdi dir="ltr">' + esc(s) + "</bdi>"; }
+function itemName(it){ return L({ar:it.name_ar, fr:it.name_fr, en:it.name_en}); }
+function itemDesc(it){ return L({ar:it.description_ar, fr:it.description_fr, en:it.description_en}); }
+function telHref(){ return "tel:" + String(CONFIG.phone).replace(/[^\d+]/g, ""); }
+function waHref(text){ return "https://wa.me/" + CONFIG.whatsappNumber + "?text=" + encodeURIComponent(text); }
+function hello(){
+  if (lang === "ar") return "مرحباً " + CONFIG.name + "، أريد أن أطلب.";
+  if (lang === "fr") return "Bonjour " + CONFIG.name + ", je souhaite commander.";
+  return "Hi " + CONFIG.name + ", I would like to order.";
+}
+function itemMsg(it){
+  var line = itemName(it) + " — " + it.price + " " + CONFIG.currency;
+  if (lang === "ar") return "مرحباً " + CONFIG.name + "، أريد طلب:\n• " + line;
+  if (lang === "fr") return "Bonjour " + CONFIG.name + ", je voudrais commander :\n• " + line;
+  return "Hi " + CONFIG.name + ", I would like to order:\n• " + line;
+}
+function btnLink(href, cls, icon, label, ext){
+  return '<a class="btn ' + cls + '" href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' + icon + '<span>' + esc(label) + '</span></a>';
+}
+function findCat(id){
+  for (var i = 0; i < CONFIG.menu.length; i++) if (CONFIG.menu[i].id === id) return CONFIG.menu[i];
+  return null;
+}
+function findItem(key){
+  var p = String(key).split(":");
+  var cat = findCat(p[0]);
+  if (!cat) return null;
+  var it = cat.items[Number(p[1])];
+  return it ? {cat:cat, item:it} : null;
+}
+
+window.imgOk = function(img){ img.classList.add("in"); };
+window.imgFallback = function(img){
+  img.style.display = "none";
+  var box = img.parentNode;
+  if (!box || box.querySelector(".imgfallback")) return;
+  var d = document.createElement("span");
+  d.className = "imgfallback";
+  d.innerHTML = '<span class="fb-emoji">' + esc(img.getAttribute("data-emoji") || "🍔") + "</span>";
+  box.appendChild(d);
+};
+function imgTag(src, alt, emoji, w, h){
+  return '<img src="' + esc(src) + '" alt="' + esc(alt) + '" width="' + w + '" height="' + h + '" loading="lazy" decoding="async" data-emoji="' + esc(emoji || "🍔") + '" onload="imgOk(this)" onerror="imgFallback(this)">';
+}
+function badgeHTML(b){
+  if (!b) return "";
+  var neu = b === "New";
+  return '<span class="badge' + (neu ? " new" : "") + '">' + esc(neu ? T[lang].newTag : T[lang].bestTag) + "</span>";
+}
+function tagBadgeHTML(b){
+  if (!b) return "";
+  var neu = b === "New";
+  return '<span class="tag-badge' + (neu ? " new" : "") + '">' + esc(neu ? T[lang].newTag : T[lang].bestTag) + "</span>";
+}
+function cardHTML(cat, it, index){
+  var name = itemName(it);
+  return '<button class="card reveal" type="button" data-key="' + cat.id + ":" + index + '">' +
+    '<span class="imgwrap">' + badgeHTML(it.badge) + imgTag(imgSrc(it.image, 900), name, it.emoji, 900, 600) +
+    '<span class="shine"></span></span>' +
+    '<span class="card-body"><span class="ttl">' + esc(name) + '</span><span class="txt">' + esc(itemDesc(it)) + "</span>" +
+    '<span class="card-foot"><span class="price">' + money(it.price) + '</span><span class="hint">' + esc(T[lang].orderS) + "</span></span></span></button>";
+}
+/* compact row: thumb + name + description + price + order button. Built for phones. */
+function dishHTML(cat, it, index){
+  var name = itemName(it);
+  return '<button class="dish reveal" type="button" data-key="' + cat.id + ":" + index + '">' +
+    '<span class="dish-thumb">' + imgTag(imgSrc(it.image, 400), name, it.emoji, 400, 400) + "</span>" +
+    '<span class="dish-body"><span class="dish-top"><span class="ttl">' + esc(name) + "</span>" + tagBadgeHTML(it.badge) + "</span>" +
+    '<span class="txt">' + esc(itemDesc(it)) + "</span>" +
+    '<span class="dish-foot"><span class="price">' + money(it.price) + "</span>" +
+    '<span class="dish-go" aria-hidden="true">' + IC.wa + "</span></span></span></button>";
+}
+function totalItems(){
+  var n = 0;
+  for (var i = 0; i < CONFIG.menu.length; i++) n += CONFIG.menu[i].items.length;
+  return n;
+}
+function topPick(){
+  for (var i = 0; i < CONFIG.menu.length; i++){
+    var items = CONFIG.menu[i].items;
+    for (var j = 0; j < items.length; j++){
+      if (items[j].badge === "Best seller") return items[j];
+    }
+  }
+  return CONFIG.menu[0] && CONFIG.menu[0].items[0] ? CONFIG.menu[0].items[0] : null;
+}
+
+function renderMenu(){
+  var chips = "", body = "";
+  CONFIG.menu.forEach(function(cat){
+    chips += '<button class="chip" type="button" data-cat="' + cat.id + '" aria-current="false">' +
+      "<em>" + cat.icon + "</em>" + esc(L(cat.label)) + "<b>" + cat.items.length + "</b></button>";
+    body += '<section class="cat" id="cat-' + cat.id + '" data-cat="' + cat.id + '">' +
+      '<header class="cat-head"><span class="cat-ico" aria-hidden="true">' + cat.icon + "</span><div><h3>" + esc(L(cat.label)) + "</h3><p>" +
+      cat.items.length + " " + esc(T[lang].dishes) + "</p></div></header>" +
+      '<div class="cat-list">';
+    cat.items.forEach(function(it, i){ body += dishHTML(cat, it, i); });
+    body += "</div></section>";
+  });
+  $("#chips").innerHTML = chips;
+  $("#chips").setAttribute("aria-label", lang === "ar" ? "الأقسام" : "Categories");
+  $("#menuRoot").innerHTML = body;
+  $("#menuNote").textContent = T[lang].total + " " + totalItems() + " " + T[lang].dishes +
+    " · " + T[lang].note + " " + CONFIG.currency;
+}
+function renderBest(){
+  var out = "", n = 0;
+  CONFIG.menu.forEach(function(cat){
+    cat.items.forEach(function(it, i){
+      if (it.badge !== "Best seller") return;
+      n++;
+      out += cardHTML(cat, it, i);
+    });
+  });
+  $("#bestRail").innerHTML = out;
+  $("#best").style.display = n ? "" : "none";
+}
+function renderStatic(){
+  var t = T[lang], c = {call:telHref(), wa:waHref(hello()), dir:CONFIG.googleMapsLink};
+  $("#brandName").textContent = CONFIG.name;
+  $("#brandSub").textContent = t.ff;
+  $("#eyebrow").textContent = L(CONFIG.eyebrow);
+  $("#heroTitle").textContent = CONFIG.name;
+  $("#heroTag").textContent = L(CONFIG.tagline);
+  $("#heroSub").textContent = L(CONFIG.sub);
+  $("#heroCta").innerHTML =
+    btnLink(c.call, "btn-call", IC.phone, t.call, false) +
+    btnLink(c.wa, "btn-wa", IC.wa, t.order, true);
+  $("#menuKicker").textContent = t.menuK;
+  $("#menuTitle").textContent = t.menuT;
+  $("#menuSub").textContent = t.menuS;
+  $("#bestKicker").textContent = t.bestK;
+  $("#bestTitle").textContent = t.bestT;
+  $("#bestSub").textContent = t.bestS;
+  $("#howKicker").textContent = t.howK;
+  $("#howTitle").textContent = t.howT;
+  $("#steps").innerHTML =
+    '<article class="step reveal"><span class="step-ic">' + IC.list + "</span><div><h3>" + esc(t.s1) + "</h3><p>" + esc(t.s1d) + "</p></div></article>" +
+    '<article class="step reveal"><span class="step-ic">' + IC.chat + "</span><div><h3>" + esc(t.s2) + "</h3><p>" + esc(t.s2d) + "</p></div></article>" +
+    '<article class="step reveal"><span class="step-ic">' + IC.check + "</span><div><h3>" + esc(t.s3) + "</h3><p>" + esc(t.s3d) + "</p></div></article>";
+  $("#locKicker").textContent = t.locK;
+  $("#locTitle").textContent = t.locT;
+  $("#addrL").textContent = t.addr; $("#addrV").textContent = L(CONFIG.address);
+  $("#hoursL").textContent = t.hours; $("#hoursV").innerHTML = bidi(L(CONFIG.openingHours));
+  $("#phoneL").textContent = t.phone; $("#phoneV").innerHTML = ltr(CONFIG.phone);
+  $("#dirBtn").href = c.dir; $("#dirBtnT").textContent = t.getDir;
+  $("#mapFrame").title = t.locT;
+  $("#footName").textContent = CONFIG.name;
+  $("#footTag").textContent = L(CONFIG.tagline);
+  $("#footHL").textContent = t.footH; $("#footHV").innerHTML = bidi(L(CONFIG.openingHours));
+  $("#footAL").textContent = t.footA; $("#footAV").textContent = L(CONFIG.address);
+  $("#copyT").textContent = t.copy;
+  $("#sheetWaT").textContent = t.order;
+  $("#sheetX").setAttribute("aria-label", t.close);
+  $("#skip").textContent = t.skip;
+  $("#toMenu").setAttribute("aria-label", t.menuT);
+  $("#nowK").textContent = t.section;
+  $("#langGroup").setAttribute("aria-label", lang === "ar" ? "اللغة" : "Language");
+  document.title = CONFIG.name + " — " + L(CONFIG.tagline);
+
+  $("#hdrCta").innerHTML =
+    '<a class="h-wa" href="' + esc(c.wa) + '" target="_blank" rel="noopener">' + IC.wa + "<span>" + esc(t.wa) + "</span></a>" +
+    '<a class="h-call" href="' + esc(c.call) + '">' + IC.phone + "<span>" + esc(t.callS) + "</span></a>" +
+    '<a class="h-dir" href="' + esc(c.dir) + '" target="_blank" rel="noopener">' + IC.pin + "<span>" + esc(t.dirs) + "</span></a>";
+  $("#dock").innerHTML =
+    '<a class="c-call" href="' + esc(c.call) + '">' + IC.phone + "<span>" + esc(t.callS) + "</span></a>" +
+    '<a class="c-wa" href="' + esc(c.wa) + '" target="_blank" rel="noopener" aria-label="' + esc(t.order) + '">' +
+      '<span class="fab" aria-hidden="true">' + IC.wa + "</span>" +
+      '<span class="sr">' + esc(t.order) + "</span></a>" +
+    '<a class="c-dir" href="' + esc(c.dir) + '" target="_blank" rel="noopener">' + IC.pin + "<span>" + esc(t.dirs) + "</span></a>";
+
+  var pick = topPick();
+  if (pick){
+    $("#heroChip1").innerHTML = "<em>" + (pick.emoji || "🍔") + "</em><b>" + esc(itemName(pick)) + "</b>" +
+      "<small>" + pick.price + " " + esc(CONFIG.currency) + "</small>";
+  } else $("#heroChip1").hidden = true;
+  $("#heroChip2").innerHTML = IC.clock + "<b>" + bidi(L(CONFIG.openingHours)) + "</b>";
+  $("#heroMeta").innerHTML =
+    "<li>" + IC.pin + "<span>" + esc(L(CONFIG.address)) + "</span></li>" +
+    "<li>" + IC.phone + "<span>" + ltr(CONFIG.phone) + "</span></li>";
+  $("#footCta").innerHTML =
+    btnLink(c.call, "btn-call", IC.phone, t.call, false) +
+    btnLink(c.wa, "btn-wa", IC.wa, t.wa, true) +
+    btnLink(c.dir, "btn-dir", IC.pin, t.dirs, true);
+
+  var hi = $("#heroImg");
+  hi.alt = CONFIG.name + " — " + L(CONFIG.tagline);
+  hi.setAttribute("data-emoji", "🍔");
+  if (!booted){
+    hi.onload = function(){ imgOk(hi); };
+    hi.onerror = function(){ imgFallback(hi); };
+    hi.src = imgSrc(CONFIG.heroImage, 1400);
+    $("#mapFrame").src = CONFIG.googleMapsEmbedUrl;
+    booted = true;
+  }
+}
+
+var stickyPx = 0;
+function measureSticky(){
+  stickyPx = $("#hdr").offsetHeight + $("#stickyNav").offsetHeight + 12;
+  document.documentElement.style.setProperty("--sticky-h", stickyPx + "px");
+}
+function stickyH(){ return stickyPx; }
+/* Chip highlight never scrolls the window. Only the chip row moves. */
+function centerChip(btn){
+  var rail = btn.parentNode;
+  var delta = (btn.getBoundingClientRect().left + btn.offsetWidth / 2) - (rail.getBoundingClientRect().left + rail.clientWidth / 2);
+  if (Math.abs(delta) < 12) return;
+  var y = window.pageYOffset || document.documentElement.scrollTop;
+  rail.scrollBy({left:delta, behavior:"auto"});
+  /* if the browser chains that scroll into the page, put the page back */
+  if ((window.pageYOffset || document.documentElement.scrollTop) !== y) window.scrollTo(0, y);
+}
+function setActive(id){
+  var changed = id !== activeCat;
+  activeCat = id;
+  var cat = findCat(id);
+  var chips = document.querySelectorAll(".chip");
+  for (var i = 0; i < chips.length; i++){
+    var on = chips[i].dataset.cat === id;
+    chips[i].setAttribute("aria-current", on ? "true" : "false");
+    if (on && changed) centerChip(chips[i]);
+  }
+  var secs = document.querySelectorAll(".cat");
+  for (var k = 0; k < secs.length; k++) secs[k].classList.toggle("is-on", secs[k].dataset.cat === id);
+  if (cat){
+    $("#nowLabel").textContent = L(cat.label);
+    $("#nowCount").textContent = cat.items.length + " " + T[lang].dishes;
+  }
+}
+function goTo(id){
+  var sec = document.getElementById("cat-" + id);
+  if (!sec) return;
+  setActive(id);
+  /* hold the highlight until the smooth scroll actually lands — a fixed
+     timeout let the spy re-highlight the category it was flying over */
+  lockId = id; lockStart = Date.now();
+  var y = sec.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) - stickyH();
+  window.scrollTo({top:Math.max(0, y), behavior:reduced ? "auto" : "smooth"});
+}
+function spy(){
+  if (lockId){
+    var target = document.getElementById("cat-" + lockId);
+    var landed = target ? Math.abs(target.getBoundingClientRect().top - stickyH()) <= 4 : true;
+    if (!landed && Date.now() - lockStart < 2600) return;
+    lockId = null;
+    lockUntil = Date.now() + (landed ? 60 : 150);
+  }
+  if (Date.now() < lockUntil) return;
+  var secs = document.querySelectorAll(".cat");
+  if (!secs.length) return;
+  var line = stickyH();
+  var id = secs[0].dataset.cat;
+  for (var i = 0; i < secs.length; i++){
+    if (secs[i].getBoundingClientRect().top <= line) id = secs[i].dataset.cat;
+  }
+  setActive(id);
+}
+
+function openSheet(key){
+  var f = findItem(key);
+  if (!f) return;
+  var it = f.item, name = itemName(it), t = T[lang];
+  lastFocus = document.activeElement;
+  var si = $("#sheetImg");
+  var next = imgSrc(it.image, 1200);
+  si.style.display = "";
+  si.alt = name;
+  si.setAttribute("data-emoji", it.emoji || "🍔");
+  var old = si.parentNode.querySelector(".imgfallback");
+  if (old) old.remove();
+  if (si.getAttribute("src") !== next){
+    si.classList.remove("in");
+    si.src = next;
+  }
+  if (si.complete && si.naturalWidth) imgOk(si);
+  $("#sheetName").textContent = name;
+  $("#sheetDesc").textContent = itemDesc(it);
+  $("#sheetMeta").textContent = L(f.cat.label);
+  $("#sheetPrice").innerHTML = money(it.price);
+  var bd = $("#sheetBadge");
+  if (it.badge){
+    bd.hidden = false;
+    bd.textContent = it.badge === "New" ? t.newTag : t.bestTag;
+    bd.className = "badge" + (it.badge === "New" ? " new" : "");
+  } else bd.hidden = true;
+  $("#sheetWa").href = waHref(itemMsg(it));
+  var sh = $("#sheet"), sc = $("#scrim");
+  sh.hidden = false; sc.hidden = false;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ sh.classList.add("on"); sc.classList.add("on"); }); });
+  document.body.classList.add("lock");
+  $("#sheetX").focus();
+}
+function closeSheet(){
+  var sh = $("#sheet"), sc = $("#scrim");
+  sh.classList.remove("on"); sc.classList.remove("on");
+  document.body.classList.remove("lock");
+  clearTimeout(sheetTimer);
+  sheetTimer = setTimeout(function(){
+    if (!sh.classList.contains("on")){ sh.hidden = true; sc.hidden = true; }
+  }, 380);
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+
+var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if (!e.isIntersecting) return;
+    e.target.classList.add("in");
+    io.unobserve(e.target);
+  });
+}, {rootMargin:"0px 0px -8% 0px", threshold:.12}) : null;
+function revealScan(){
+  var nodes = document.querySelectorAll(".reveal:not(.in)");
+  for (var i = 0; i < nodes.length; i++){
+    var el = nodes[i];
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.92){ el.classList.add("in"); continue; }
+    el.style.transitionDelay = ((i % 5) * 50) + "ms";
+    if (io) io.observe(el); else el.classList.add("in");
+  }
+}
+
+/* tilt is a desktop pointer nicety on the photo rail only — it fights scrolling on touch */
+function initTilt(){
+  if (reduced || !window.matchMedia("(hover:hover) and (pointer:fine)").matches) return;
+  var el = null, raf = 0, px = 0, py = 0;
+  function paint(){
+    raf = 0;
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    var x = (px - r.left) / r.width - .5;
+    var y = (py - r.top) / r.height - .5;
+    var max = 3.2;
+    el.style.transform = "perspective(800px) rotateX(" + (-y * max).toFixed(2) + "deg) rotateY(" + (x * max).toFixed(2) + "deg)";
+    var sh = el.querySelector(".shine");
+    if (sh){ sh.style.setProperty("--mx", ((x + .5) * 100) + "%"); sh.style.setProperty("--my", ((y + .5) * 100) + "%"); }
+  }
+  function clear(){
+    if (!el) return;
+    el.style.transform = "";
+    el.classList.remove("tilting");
+    el = null;
+  }
+  document.addEventListener("pointermove", function(e){
+    var card = e.target.closest ? e.target.closest(".rail .card") : null;
+    if (!card){ clear(); return; }
+    if (el !== card){ clear(); el = card; card.classList.add("tilting"); }
+    px = e.clientX; py = e.clientY;
+    if (!raf) raf = requestAnimationFrame(paint);
+  }, {passive:true});
+  document.addEventListener("pointerleave", clear, {passive:true});
+}
+/* hero drifts slower than the page = depth. No transform on animated children,
+   otherwise the CSS animation would win over the inline value. */
+function initDepth(){
+  if (reduced) return;
+  var art = $("#heroArt"), raf = 0;
+  window.addEventListener("scroll", function(){
+    if (raf) return;
+    raf = requestAnimationFrame(function(){
+      raf = 0;
+      var y = window.pageYOffset || 0;
+      if (y > window.innerHeight){ art.style.transform = ""; return; }
+      art.style.transform = "translate3d(0," + (y * 0.06).toFixed(1) + "px,0)";
+    });
+  }, {passive:true});
+}
+/* stop the hero animation clock when the hero is off screen (battery on phones) */
+function initHeroClock(){
+  if (!("IntersectionObserver" in window)) return;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ e.target.classList.toggle("paused", !e.isIntersecting); });
+  }, {threshold:0}).observe($("#hero"));
+}
+
+function applyBrand(){
+  var c = CONFIG.colors, s = document.documentElement.style;
+  s.setProperty("--primary", c.primary);
+  s.setProperty("--accent", c.accent);
+  s.setProperty("--bg", c.dark);
+  s.setProperty("--ink", c.light);
+  var m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.setAttribute("content", c.dark);
+}
+function setLang(next){
+  lang = next;
+  document.documentElement.lang = next;
+  document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
+  var bs = document.querySelectorAll(".lang button");
+  for (var i = 0; i < bs.length; i++) bs[i].setAttribute("aria-pressed", String(bs[i].dataset.lang === next));
+  closeSheet();
+  var keep = activeCat;
+  renderStatic();
+  renderMenu();
+  renderBest();
+  measureSticky();
+  activeCat = null;
+  setActive(keep || CONFIG.menu[0].id);
+  revealScan();
+}
+
+(function init(){
+  applyBrand();
+  var start = (CONFIG.defaultLang === "fr" || CONFIG.defaultLang === "en") ? CONFIG.defaultLang : "ar";
+  var bs = document.querySelectorAll(".lang button");
+  for (var i = 0; i < bs.length; i++){
+    bs[i].addEventListener("click", function(){ setLang(this.dataset.lang); });
+  }
+  document.documentElement.lang = start;
+  document.documentElement.dir = start === "ar" ? "rtl" : "ltr";
+  for (var j = 0; j < bs.length; j++) bs[j].setAttribute("aria-pressed", String(bs[j].dataset.lang === start));
+  lang = start;
+  renderStatic();
+  renderMenu();
+  renderBest();
+  measureSticky();
+  setActive(CONFIG.menu[0].id);
+  revealScan();
+  var si = $("#sheetImg");
+  si.onload = function(){ imgOk(si); };
+  si.onerror = function(){ imgFallback(si); };
+  initTilt();
+  initDepth();
+  initHeroClock();
+  if ("ResizeObserver" in window) new ResizeObserver(measureSticky).observe($("#stickyNav"));
+  window.addEventListener("resize", measureSticky, {passive:true});
+  window.addEventListener("orientationchange", function(){ setTimeout(measureSticky, 200); });
+
+  $("#chips").addEventListener("click", function(e){
+    var b = e.target.closest && e.target.closest(".chip");
+    if (b) goTo(b.dataset.cat);
+  });
+  document.addEventListener("click", function(e){
+    var card = e.target.closest && e.target.closest("[data-key]");
+    if (card) openSheet(card.dataset.key);
+  });
+  $("#toMenu").addEventListener("click", function(){
+    var y = $("#menu").getBoundingClientRect().top + (window.pageYOffset || 0) - $("#hdr").offsetHeight + 8;
+    window.scrollTo({top:Math.max(0, y), behavior:reduced ? "auto" : "smooth"});
+  });
+  $("#scrim").addEventListener("click", closeSheet);
+  $("#sheetX").addEventListener("click", closeSheet);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeSheet(); });
+  var sy = 0;
+  $("#sheet").addEventListener("touchstart", function(e){ sy = e.touches[0].clientY; }, {passive:true});
+  $("#sheet").addEventListener("touchend", function(e){
+    var dy = e.changedTouches[0].clientY - sy;
+    if ($("#sheet").scrollTop <= 0 && dy > 72) closeSheet();
+  }, {passive:true});
+
+  var tick = false;
+  window.addEventListener("scroll", function(){
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(function(){ tick = false; spy(); });
+  }, {passive:true});
+  window.addEventListener("wheel", function(){ lockId = null; lockUntil = 0; }, {passive:true});
+  document.addEventListener("touchstart", function(e){
+    if (e.target.closest && e.target.closest(".chip")) return;
+    lockId = null; lockUntil = 0;
+  }, {passive:true});
+  var skip = $("#skip");
+  skip.addEventListener("focus", function(){ skip.style.top = "8px"; });
+  skip.addEventListener("blur", function(){ skip.style.top = "-48px"; });
+})();
+</script>
+</body>
+</html>
